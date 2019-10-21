@@ -1,3 +1,3 @@
 class CinemaParser:
   def __init__(self,city):
-    self.city = city
+    self.city = 'msk'
