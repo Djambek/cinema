@@ -1,5 +1,6 @@
 '''Этот модуль предназначен для тестирования класса CinemaParser фукциивывода html страницы '''
 from core import CinemaParser
-pr = CinemaParser()
-pr.extract_raw_content()
-print(pr.print_raw_content())
+PR = CinemaParser()
+PR.extract_raw_content()
+print(PR.print_raw_content())
+print(PR.find())
