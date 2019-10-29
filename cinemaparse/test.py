@@ -3,4 +3,4 @@ from core import CinemaParser
 PR = CinemaParser()
 PR.extract_raw_content()
 print(PR.print_raw_content())
-print(PR.find())
+print(PR.found())
