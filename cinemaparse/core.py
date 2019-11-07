@@ -27,7 +27,7 @@ class CinemaParser:
         soup = BeautifulSoup(self.content.text, 'html.parser')
         return soup.prettify()
 
-    def found(self):
+    def get_films_list(self):
         ''' Это фунция ведёт поиск тегов с фильмами'''
         soup = BeautifulSoup(self.content.text, 'html.parser')
         for i in soup.find_all("div", class_='movie-plate'):
@@ -35,7 +35,7 @@ class CinemaParser:
             # print(i["attr-title"])
         return self.film
 
-    def sesion(self, name):
+    def get_film_nearest_session(self, name):
         '''Эта функции выдаёт поиск по фильму'''
         b_0 = 0
         day = []
