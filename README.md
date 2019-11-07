@@ -20,7 +20,6 @@ git clone https://github.com/Dzambek/cinema.git
 * Запустите файл test.py
 ***
 # Как использовать библиотеку
-============================
 Для вызова библиотеки напишите:
 ```python
 from core import CinemaParser
