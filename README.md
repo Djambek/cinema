@@ -74,7 +74,8 @@ print(EXAMPLE.get_films_content())
 from core import CinemaParser
 EXAMPLE = CinemaParser()
 EXAMPLE.extract_raw_content() 
-print(EXAMPLE.get_film_nearest_session('Тут название фильма')
+EXAMPLE.some_cycles('Тут название фильма')
+print(EXAMPLE.get_film_nearest_session()
 ```
 ***
 ## get_nearest_subway_station
