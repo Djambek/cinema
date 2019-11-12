@@ -42,8 +42,6 @@ class CinemaParser:
                 b_0 = 1
         if b_0 == 0:
             raise TypeError("Нет такого фильма")
-        print(len(self.film))
-        print(self.number)
         url = 'https://{}.subscity.ru'.format(self.city)
         self.content = requests.get(url)
         soup = BeautifulSoup(self.content.text, 'html.parser')
