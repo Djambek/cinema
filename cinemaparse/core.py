@@ -2,7 +2,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-
 class CinemaParser:
     ''' Этот класс очень нужен'''
 
@@ -16,7 +15,6 @@ class CinemaParser:
         self.film = []
         self.site = []
         self.name = []
-
     def extract_raw_content(self):
         ''' Скачиваем HTML с сайта '''
         url = 'https://{}.subscity.ru'.format(self.city)
@@ -35,47 +33,48 @@ class CinemaParser:
             # print(i["attr-title"])
         return self.film
 
-    def get_film_nearest_session(self, name):
-        '''Эта функции выдаёт поиск по фильму'''
+    def some_cycles(self, name):
+        '''Просто так'''
         b_0 = 0
+        for name_film in range(len(self.film)):
+            if str(self.film[name_film]).upper() == str(name).upper():
+                self.number = name_film
+                b_0 = 1
+        if b_0 == 0:
+            raise TypeError("Нет такого фильма")
+        print(len(self.film))
+        print(self.number)
+        url = 'https://{}.subscity.ru'.format(self.city)
+        self.content = requests.get(url)
+        soup = BeautifulSoup(self.content.text, 'html.parser')
+        for film in soup.find_all('div', class_="movie-title"):
+            for text_film in film.find_all("a", class_="underdashed"):
+                self.site.append(url + text_film['href'])
+
+    def get_film_nearest_session(self):
+        '''Эта функции выдаёт поиск по фильму'''
+
         day = []
         t_str = ''
         time = []
         cinema_name = []
-        for i in range(len(self.film)):
-            if str(self.film[i]).upper() == str(name).upper():
-                self.number = i
-                b_0 = 1
-        if b_0 == 0:
-            raise TypeError("Нет такого фильма")
-        url = 'https://{}.subscity.ru'.format(self.city)
-
-        soup = BeautifulSoup(self.content.text, 'html.parser')
-        for i in soup.find_all('div', class_="movie-titles"):
-            for j in i.find_all('div', class_="movie-title"):
-                for k in j.find_all("a", class_="underdashed"):
-                    self.site.append(url + k['href'])
-                    # print(url+k["href"])
-
-            # sleep(1)
         self.content = requests.get(self.site[self.number])
         print(self.site[self.number])
         soup = BeautifulSoup(self.content.text, 'html.parser')
-        for i in soup.find_all('h3', class_='header-day text-center'):
-            for j in i.find_all('a', class_='underdashed'):
-                day.append(j.text)
+        for day_of_film in soup.find_all('h3', class_='header-day text-center'):
+            day.append(day_of_film.text)
         t_str = "table table-bordered table-condensed table-curved table-striped table-no-inside-"
-        for i in soup.find('table', class_=t_str+'borders'):
-            for j in i.find_all("td", class_="text-center cell-screenings"):
-                time.append(str(j.text)[:5].replace(':', '.'))
+        for cinema_time in soup.find('table', class_=t_str+'borders'):
+            for time_ in cinema_time.find_all("td", class_="text-center cell-screenings"):
 
-        for i in soup.find_all('div', class_='cinema-name'):
-            for j in i.find_all('a', class_="underdashed"):
-                cinema_name.append(j.text)
+                time.append(str(time_.text)[:5].replace(':', '.'))
 
+        for list_cinema_name in soup.find_all('div', class_='cinema-name'):
+            for name_text in list_cinema_name.find_all('a', class_="underdashed"):
+                cinema_name.append(name_text.text)
 
-        b_0 = min(range(len(time)), key=time.__getitem__)
-        return time[b_0], day[b_0], cinema_name[b_0]
+        val, idx = min((val, idx) for (idx, val) in enumerate(time))
+        return val, day[idx], cinema_name[idx]
 
     def get_nearest_subway_station(self, name_cinema):
         '''Возвращает ближайшие метро к кинотеатру'''
